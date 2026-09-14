@@ -32,7 +32,7 @@ export interface Category {
   image_url: string;
 }
 
-const API_BASE = "http://localhost:8080/api/v1";
+const API_BASE = import.meta.env.CATALOG_API_URL;
 const STORE_ID = "store_norella";
 
 export const FALLBACK_PRODUCTS: Product[] = [
@@ -170,7 +170,22 @@ export const FALLBACK_PRODUCTS: Product[] = [
   }
 ];
 
+// Additional sample pieces share collection photography until final assets are supplied.
+const samplePieces = [
+  ['Saffron & Rose Daily Face Oil', 'saffron-rose-daily-face-oil', 6900, 0, 'A lightweight botanical oil for a quiet moment of daily care.'],
+  ['Pearl Drop Kundan Earrings', 'pearl-drop-kundan-earrings', 9800, 1, 'Delicate gold-tone details with pearl-inspired drops for every celebration.'],
+  ['Antique Gold Festive Pendant Set', 'antique-gold-festive-pendant-set', 16700, 1, 'An ornate pendant and matching earrings, inspired by traditional temple designs.'],
+  ['Emerald Silk Occasion Saree', 'emerald-silk-occasion-saree', 36500, 2, 'Rich emerald tones and an intricate border for memorable occasions.'],
+  ['Golden Hour Botanical Care Set', 'golden-hour-botanical-care-set', 18900, 0, 'A thoughtful introduction to a slower, more considered beauty ritual.'],
+  ['Heritage Zari Celebration Saree', 'heritage-zari-celebration-saree', 42500, 2, 'A statement drape with traditional motifs and warm gold accents.'],
+] as const;
+samplePieces.forEach(([title, slug, price, source, description], index) => {
+  const base = FALLBACK_PRODUCTS[source];
+  FALLBACK_PRODUCTS.push({ ...base, id: `nor-sample-${index + 7}`, title, slug, sku: `NOR-SAMPLE-${index + 7}`, price, compare_at_price: null, description: `<p>${description}</p><p>Sample product. Images are illustrative; materials, sizing and availability require confirmation.</p>`, short_description: description, is_featured: false, avg_rating: 0, review_count: 0, images: base.images.map(image => ({ ...image, alt_text: `${base.category_name} collection reference photograph` })) });
+});
+
 export async function getProducts(categorySlug?: string): Promise<Product[]> {
+  if (!API_BASE) return categorySlug ? FALLBACK_PRODUCTS.filter(p => p.category_slug === categorySlug) : FALLBACK_PRODUCTS;
   try {
     const res = await fetch(`${API_BASE}/products`, {
       headers: { "X-Store-ID": STORE_ID },

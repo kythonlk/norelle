@@ -61,16 +61,7 @@ const discount = product.compare_at_price && product.compare_at_price > product.
           <h1 class="font-cinzel text-2xl sm:text-3xl font-bold text-gray-900 mt-2">
             {product.title}
           </h1>
-          <div class="flex items-center gap-3 mt-3 text-xs">
-            <div class="flex items-center text-amber-500">
-              <span>★★★★★</span>
-              <span class="ml-1 text-gray-700 font-semibold">{product.avg_rating || 5.0}</span>
-            </div>
-            <span class="text-gray-300">•</span>
-            <span class="text-gray-500">{product.review_count || 18} Verified Sri Lankan Reviews</span>
-            <span class="text-gray-300">•</span>
-            <span class="text-emerald-700 font-semibold">In Stock ({product.total_stock} available)</span>
-          </div>
+          <p class="text-xs text-gray-500 mt-3 leading-relaxed">Sample collection · Image is illustrative. Final availability and specifications require confirmation.</p>
         </div>
 
         <!-- Pricing -->
@@ -119,7 +110,7 @@ const discount = product.compare_at_price && product.compare_at_price > product.
               onclick={`window.addToCart({ id: '${product.id}', title: '${product.title.replace(/'/g, "\\'")}', price: ${product.price}, image: '${primaryImage}', slug: '${product.slug}', quantity: 1 })`}
               class="py-4 px-6 bg-gradient-to-r from-[#c59b27] to-[#aa771c] hover:opacity-95 text-white font-semibold text-xs uppercase tracking-widest text-center transition-opacity shadow-lg flex items-center justify-center"
             >
-              Buy It Now (COD / Card)
+              Review your bag
             </a>
           </div>
         </div>
@@ -128,19 +119,19 @@ const discount = product.compare_at_price && product.compare_at_price > product.
         <div class="p-4 border border-[#ebdcc9] bg-white rounded-sm grid grid-cols-2 gap-3 text-xs text-gray-700">
           <div class="flex items-center gap-2">
             <span class="text-[#c59b27]">✔</span>
-            <span>22K Micro-Gold Plating Guarantee</span>
+            <span>Thoughtfully curated collection</span>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-[#c59b27]">✔</span>
-            <span>Silk Mark Certified Handloom</span>
+            <span>Inspired by traditional craft</span>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-[#c59b27]">✔</span>
-            <span>Islandwide Cash on Delivery</span>
+            <span>Delivery estimate at checkout</span>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-[#c59b27]">✔</span>
-            <span>Colombo Showroom Pickup</span>
+            <span>Save favourites in your bag</span>
           </div>
         </div>
 

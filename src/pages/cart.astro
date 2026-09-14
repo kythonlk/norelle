@@ -28,7 +28,7 @@ import Layout from '../layouts/Layout.astro';
           <a href="/shop" class="text-xs uppercase tracking-widest font-semibold text-[#b38f29] hover:underline flex items-center gap-2">
             &larr; Continue Exploring Collections
           </a>
-          <button type="button" onclick="localStorage.removeItem('norella_cart'); window.dispatchEvent(new CustomEvent('norella:cart_updated')); renderCartPage();" class="text-xs text-red-700 hover:underline">
+          <button type="button" onclick="window.clearNorellaCart();" class="text-xs text-red-700 hover:underline">
             Empty Bag
           </button>
         </div>
@@ -127,12 +127,12 @@ import Layout from '../layouts/Layout.astro';
       container.innerHTML = cart.map((item, idx) => {
         const itemTotal = item.price * (item.quantity || 1);
         subtotal += itemTotal;
-        const img = item.images && item.images[0] ? item.images[0].url : '/images/serum.jpg';
+        const img = item.image || '/images/serum.jpg';
         return `
           <div class="flex flex-col sm:flex-row items-center gap-6 p-5 bg-white border border-[#e5ded6] rounded-xs shadow-xs">
             <img src="${img}" alt="${item.title}" class="w-24 h-28 object-cover rounded-xs border border-[#ebe2d8]" />
             <div class="flex-grow space-y-1 text-center sm:text-left">
-              <span class="text-[10px] uppercase tracking-wider text-[#b38f29] font-bold">${item.category}</span>
+              <span class="text-[10px] uppercase tracking-wider text-[#b38f29] font-bold">Norella collection</span>
               <h3 class="font-serif-luxury text-lg font-semibold text-[#1f1916]">${item.title}</h3>
               <p class="text-xs text-[#736359]">Unit Price: Rs. ${item.price.toLocaleString()}</p>
             </div>

@@ -1,251 +1,80 @@
 ---
 import '../styles/global.css';
-
-interface Props {
-  title?: string;
-  description?: string;
-}
-
-const { 
-  title = "Norella | Luxury Cosmetics, 22K Gold Plated Jewellery & Indian Sarees Sri Lanka", 
-  description = "Discover Sri Lanka's finest luxury cosmetics, heirloom 22K gold-plated jewellery, and authentic handwoven Indian silk sarees. Islandwide express delivery." 
-} = Astro.props;
+interface Props { title?: string; description?: string; }
+const { title = 'Norella | Silks, Jewellery & Everyday Rituals', description = 'Discover a considered collection of Indian sarees, gold-plated jewellery and skincare at Norella Sri Lanka.' } = Astro.props;
+const links = [['/shop', 'Shop all'], ['/shop?category=indian-sarees', 'Silk sarees'], ['/shop?category=gold-plated-jewellery', 'Jewellery'], ['/shop?category=cosmetics-skincare', 'Beauty & rituals'], ['/about', 'Our story']];
 ---
-
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/jpeg" href="/images/logo.jpg" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content="/images/hero-banner.jpg" />
-  </head>
-  <body class="min-h-screen flex flex-col selection:bg-[#d4af37] selection:text-white">
-    <!-- Top Announcement Bar -->
-    <div class="bg-[#120e0b] text-[#e8ca65] text-xs py-2 px-4 border-b border-[#362b1b] text-center font-medium tracking-wider flex items-center justify-center gap-4">
-      <span>✨ ISLANDWIDE EXPRESS DELIVERY ACROSS SRI LANKA</span>
-      <span class="hidden md:inline">•</span>
-      <span class="hidden md:inline">FREE SHIPPING ON ORDERS OVER RS. 15,000</span>
-      <span class="hidden md:inline">•</span>
-      <span class="hidden md:inline">AUTHENTIC 22K MICRO-PLATING & 100% SILK MARK CERTIFIED</span>
-    </div>
-
-    <!-- Main Navigation Header -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#ebdcc9] transition-all shadow-xs">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-        <!-- Mobile Menu Trigger -->
-        <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-700 hover:text-[#c59b27] focus:outline-hidden" aria-label="Toggle Navigation">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-
-        <!-- Brand Identity Logo -->
-        <a href="/" class="flex items-center gap-3 group">
-          <img src="/images/logo.jpg" alt="Norella Luxury Sri Lanka" class="w-12 h-12 rounded-full object-cover border-2 border-[#d4af37] shadow-sm group-hover:scale-105 transition-transform" />
-          <div class="flex flex-col">
-            <span class="font-cinzel text-2xl font-bold tracking-widest text-[#1a1a1a] group-hover:text-[#c59b27] transition-colors">NORELLA</span>
-            <span class="text-[9px] tracking-[0.25em] text-[#8e7235] uppercase font-semibold">Luxury Sri Lanka</span>
-          </div>
-        </a>
-
-        <!-- Desktop Navigation Links -->
-        <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium tracking-wide">
-          <a href="/" class="text-gray-900 hover:text-[#c59b27] transition-colors">Home</a>
-          <a href="/shop?category=cosmetics-skincare" class="text-gray-700 hover:text-[#c59b27] transition-colors">Cosmetics & Glow</a>
-          <a href="/shop?category=gold-plated-jewellery" class="text-gray-700 hover:text-[#c59b27] transition-colors">22K Gold Jewellery</a>
-          <a href="/shop?category=indian-sarees" class="text-gray-700 hover:text-[#c59b27] transition-colors">Indian Sarees</a>
-          <a href="/shop" class="text-gray-700 hover:text-[#c59b27] transition-colors font-semibold text-[#8e7235]">All Collections</a>
-          <a href="/about" class="text-gray-700 hover:text-[#c59b27] transition-colors">Our Atelier</a>
-          <a href="/contact" class="text-gray-700 hover:text-[#c59b27] transition-colors">Boutique & Contact</a>
-        </nav>
-
-        <!-- Actions: Search, Wishlist & Live Shopping Bag -->
-        <div class="flex items-center space-x-4">
-          <a href="/shop" class="text-gray-700 hover:text-[#c59b27] p-2 transition-colors" aria-label="Search">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </a>
-
-          <!-- Cart Trigger Button -->
-          <button id="cart-drawer-btn" class="relative p-2 text-gray-800 hover:text-[#c59b27] transition-colors focus:outline-hidden" aria-label="View Shopping Bag">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-            <span id="cart-count-badge" class="absolute -top-1 -right-1 bg-[#2b0c14] text-[#e8ca65] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-[#d4af37]">0</span>
-          </button>
-        </div>
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="theme-color" content="#4b202d" /><link rel="icon" type="image/jpeg" href="/images/logo.jpg" /><title>{title}</title><meta name="description" content={description} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:type" content="website" /><meta property="og:image" content="/images/hero-banner.jpg" /></head>
+  <body class="min-h-screen flex flex-col">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="announcement">A little something special, delivered islandwide. <span>Complimentary shipping over Rs. 15,000 ↗</span></div>
+    <header class="site-header">
+      <div class="header-inner">
+        <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+        <a class="wordmark" href="/" aria-label="Norella home">NORELLA<span>THE ART OF EVERYDAY ELEGANCE</span></a>
+        <nav class="desktop-nav" aria-label="Main navigation">{links.map(([href,label]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>)}</nav>
+        <div class="header-actions"><a href="/shop#product-search" aria-label="Search collection"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg></a><button id="cart-drawer-btn" aria-label="Open shopping bag" aria-haspopup="dialog"><svg width="21" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span id="cart-count-badge">0</span></button></div>
       </div>
-
-      <!-- Mobile Dropdown Nav -->
-      <div id="mobile-menu" class="hidden lg:hidden bg-[#faf8f5] border-b border-[#ebdcc9] px-6 py-4 space-y-3 text-sm">
-        <a href="/" class="block py-2 text-gray-800 font-medium">Home</a>
-        <a href="/shop?category=cosmetics-skincare" class="block py-2 text-gray-800">Cosmetics & Glow</a>
-        <a href="/shop?category=gold-plated-jewellery" class="block py-2 text-gray-800">22K Gold Jewellery</a>
-        <a href="/shop?category=indian-sarees" class="block py-2 text-gray-800">Indian Sarees</a>
-        <a href="/shop" class="block py-2 text-[#8e7235] font-semibold">Explore All Shop</a>
-        <a href="/about" class="block py-2 text-gray-800">About Norella Atelier</a>
-        <a href="/contact" class="block py-2 text-gray-800">Boutique & Contact</a>
-      </div>
+      <nav id="mobile-menu" class="hidden mobile-nav" aria-label="Mobile navigation">{links.map(([href,label]) => <a href={href}>{label}</a>)}<a href="/contact">Contact</a></nav>
     </header>
-
-    <!-- Main Page Body -->
-    <main class="flex-grow">
-      <slot />
-    </main>
-
-    <!-- Slide-over Cart Drawer Component -->
+    <main id="main-content" class="flex-grow"><slot /></main>
+    <p id="cart-status" role="status" class="text-center text-sm"></p>
     <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
-    <aside id="cart-drawer-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
-      <!-- Drawer Header -->
-      <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-[#0d0a08] text-white">
-        <div class="flex items-center gap-2">
-          <span class="font-cinzel text-lg font-bold text-[#e8ca65]">Your Shopping Bag</span>
-          <span id="drawer-item-count" class="text-xs bg-[#2b0c14] text-[#f3e5ab] px-2 py-0.5 rounded-full border border-[#d4af37]">0 items</span>
-        </div>
-        <button id="cart-close-btn" class="text-gray-400 hover:text-white p-1" aria-label="Close Shopping Bag">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Drawer Items Container -->
-      <div id="drawer-items-list" class="flex-1 overflow-y-auto p-5 space-y-4 divide-y divide-gray-100">
-        <!-- Dynamic line items injected by client JS -->
-      </div>
-
-      <!-- Drawer Footer & Checkout Action -->
-      <div class="p-5 border-t border-gray-100 bg-[#faf8f5] space-y-3">
-        <div class="flex justify-between items-center text-sm text-gray-600">
-          <span>Subtotal</span>
-          <span id="drawer-subtotal" class="font-semibold text-gray-900 text-base">Rs. 0</span>
-        </div>
-        <div class="flex justify-between items-center text-xs text-emerald-700 font-medium">
-          <span>Islandwide Delivery</span>
-          <span>Calculated at checkout</span>
-        </div>
-        <div class="pt-2">
-          <a href="/checkout" class="block w-full py-3.5 px-4 text-center rounded-sm bg-[#120e0b] hover:bg-[#2b0c14] text-[#e8ca65] font-semibold text-sm tracking-wider uppercase transition-colors shadow-md border border-[#d4af37]">
-            Proceed to Secure Checkout
-          </a>
-          <button id="clear-cart-btn" class="w-full mt-2 text-xs text-gray-500 hover:text-red-600 py-1 transition-colors">
-            Clear bag
-          </button>
-        </div>
-        <div class="flex items-center justify-center gap-3 pt-2 text-[10px] text-gray-500 tracking-wider">
-          <span>🔒 256-BIT ENCRYPTED</span>
-          <span>•</span>
-          <span>CASH ON DELIVERY / PAYHERE</span>
-        </div>
-      </div>
+    <aside id="cart-drawer-panel" role="dialog" aria-modal="true" aria-label="Your shopping bag" aria-hidden="true" inert class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+      <div class="p-6 border-b flex items-center justify-between"><div><h2 class="text-2xl">Your shopping bag</h2><span id="drawer-item-count" class="text-xs text-gray-500">0 items</span></div><button id="cart-close-btn" aria-label="Close shopping bag" class="w-11 h-11 text-2xl">×</button></div>
+      <div id="drawer-items-list" class="flex-1 overflow-y-auto p-5 space-y-4 divide-y divide-gray-100"></div>
+      <div class="p-6 border-t bg-[#faf8f5] space-y-4"><div class="flex justify-between text-sm"><span>Subtotal</span><span id="drawer-subtotal">Rs. 0</span></div><p class="text-xs text-gray-500">Delivery Rs. 750. Free on orders of Rs. 15,000 or more.</p><a href="/cart" class="primary-link w-full">View bag <span>→</span></a><a href="/checkout" class="block text-center text-xs underline">Continue to checkout</a><button id="clear-cart-btn" class="w-full text-xs text-gray-500 py-2">Clear bag</button></div>
     </aside>
-
-    <!-- Luxury Footer -->
-    <footer class="bg-[#0d0a08] text-gray-300 border-t border-[#2a2219]">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        <!-- Brand Summary -->
-        <div class="space-y-4">
-          <div class="flex items-center gap-3">
-            <img src="/images/logo.jpg" alt="Norella Logo" class="w-12 h-12 rounded-full border border-[#d4af37]" />
-            <span class="font-cinzel text-xl font-bold tracking-widest text-[#f3e5ab]">NORELLA</span>
-          </div>
-          <p class="text-xs leading-relaxed text-gray-400">
-            Sri Lanka’s premier destination for gold-infused skincare, artisan 22K micro-plated temple jewellery, and authentic handwoven Indian silk sarees. Designed for royal grace.
-          </p>
-          <div class="text-xs text-[#d4af37] font-medium">
-            Colombo 07 Flagship Showroom & Studio
-          </div>
-        </div>
-
-        <!-- Quick Links -->
-        <div>
-          <h4 class="font-cinzel text-sm font-semibold tracking-wider text-[#e8ca65] mb-4">Curated Collections</h4>
-          <ul class="space-y-2 text-xs">
-            <li><a href="/shop?category=cosmetics-skincare" class="hover:text-[#d4af37] transition-colors">24K Gold Elixirs & Cosmetics</a></li>
-            <li><a href="/shop?category=gold-plated-jewellery" class="hover:text-[#d4af37] transition-colors">Kundan & Polki Bridal Sets</a></li>
-            <li><a href="/shop?category=gold-plated-jewellery" class="hover:text-[#d4af37] transition-colors">Temple Lakshmi Bangles</a></li>
-            <li><a href="/shop?category=indian-sarees" class="hover:text-[#d4af37] transition-colors">Kanchipuram Silk Sarees</a></li>
-            <li><a href="/shop?category=indian-sarees" class="hover:text-[#d4af37] transition-colors">Banarasi Katan Bridal Sarees</a></li>
-          </ul>
-        </div>
-
-        <!-- Customer Care & Policies -->
-        <div>
-          <h4 class="font-cinzel text-sm font-semibold tracking-wider text-[#e8ca65] mb-4">Client Concierge</h4>
-          <ul class="space-y-2 text-xs">
-            <li><a href="/about" class="hover:text-[#d4af37] transition-colors">Artisan Heritage & Authenticity</a></li>
-            <li><a href="/contact" class="hover:text-[#d4af37] transition-colors">Book a Bridal Saree Consultation</a></li>
-            <li><a href="/contact" class="hover:text-[#d4af37] transition-colors">Islandwide Courier & Delivery</a></li>
-            <li><a href="/contact" class="hover:text-[#d4af37] transition-colors">Anti-Tarnish Jewellery Warranty</a></li>
-            <li><span class="text-[#e8ca65]">WhatsApp: +94 77 987 6543</span></li>
-          </ul>
-        </div>
-
-        <!-- VIP Newsletter -->
-        <div>
-          <h4 class="font-cinzel text-sm font-semibold tracking-wider text-[#e8ca65] mb-4">Exclusive Invitations</h4>
-          <p class="text-xs text-gray-400 mb-3">
-            Receive private preview access to our seasonal bridal saree drops and limited gold jewellery releases.
-          </p>
-          <form id="newsletter-form" class="space-y-2">
-            <input type="email" required placeholder="Enter your email address" class="w-full bg-[#18130f] border border-[#3b2e1e] rounded-sm px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-hidden focus:border-[#d4af37]" />
-            <button type="submit" class="w-full py-2 bg-gradient-to-r from-[#c59b27] to-[#aa771c] hover:opacity-90 text-white font-semibold text-xs rounded-sm tracking-wider uppercase transition-opacity">
-              Join VIP Circle
-            </button>
-            <div id="newsletter-success" class="hidden text-emerald-400 text-[11px] text-center pt-1">
-              Thank you for subscribing to Norella VIP.
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div class="border-t border-[#1d1610] py-6 text-center text-xs text-gray-500">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>© 2026 Norella Luxury Sri Lanka. All Rights Reserved. Powered by Production Go Multi-Tenant Backend.</p>
-          <div class="flex items-center gap-3 text-[#d4af37] text-xs">
-            <span>🇱🇰 Sri Lanka Rupee (LKR)</span>
-            <span>•</span>
-            <span>PayHere & Cash on Delivery</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Client-Side Cart Store & Interaction Script -->
+    <footer class="site-footer"><div class="footer-grid"><div><a class="wordmark" href="/">NORELLA<span>THE ART OF EVERYDAY ELEGANCE</span></a><p>A considered collection of beautiful things.<br />Inspired by heritage. Made for your moments.</p><span class="footer-location">Based in Sri Lanka · Curated with care</span></div><div><h2>Explore</h2><a href="/shop?category=indian-sarees">Silk sarees</a><a href="/shop?category=gold-plated-jewellery">Gold jewellery</a><a href="/shop?category=cosmetics-skincare">Beauty & rituals</a><a href="/shop">The full collection</a></div><div><h2>Here to help</h2><a href="/contact">Contact us</a><a href="/contact#delivery">Delivery & returns</a><a href="/about">Our story</a><a href="/cart">Your shopping bag</a></div><div><h2>A more personal touch.</h2><p>Need help finding a piece or putting together a special look?</p><a class="footer-contact" href="/contact">Meet your next favourite ↗</a></div></div><div class="footer-bottom"><p>© {new Date().getFullYear()} Norella. All rights reserved.</p><span>Sri Lanka · LKR</span></div></footer>
     <script is:inline>
       const CART_STORAGE_KEY = 'norella_cart_v1';
 
       function getCart() {
         try {
-          return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+          const value = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+          return Array.isArray(value) ? value.filter(item => item && typeof item.id === 'string' && /^[a-zA-Z0-9_-]+$/.test(item.id) && typeof item.title === 'string' && !/[<>"]/.test(item.title) && typeof item.image === 'string' && /^\/[a-zA-Z0-9/_.-]+$/.test(item.image) && Number.isFinite(item.price) && item.price >= 0 && Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 10) : [];
         } catch {
           return [];
         }
       }
 
       function saveCart(cart) {
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart)); } catch { document.getElementById('cart-status').textContent = 'Your browser could not save your bag. Please enable site storage and try again.'; return; }
         updateCartUI();
+        window.dispatchEvent(new CustomEvent('norella:cart_updated'));
       }
 
+      window.getNorellaCart = getCart;
+      window.changeCartQty = (index, delta) => window.changeQty(getCart()[index]?.id, delta);
+      window.removeCartItem = index => window.removeItem(getCart()[index]?.id);
+      window.clearNorellaCart = () => saveCart([]);
+      window.addEventListener('storage', () => { updateCartUI(); window.dispatchEvent(new CustomEvent('norella:cart_updated')); });
+      let previousFocus;
+      document.addEventListener('keydown', event => {
+        const panel = document.getElementById('cart-drawer-panel');
+        if (panel.inert) return;
+        if (event.key === 'Escape') closeCartDrawer();
+        if (event.key === 'Tab') {
+          const focusable = [...panel.querySelectorAll('a[href], button:not([disabled])')];
+          const first = focusable[0], last = focusable[focusable.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      });
       window.addToCart = function(product) {
         const cart = getCart();
         const existing = cart.find(item => item.id === product.id);
         if (existing) {
-          existing.quantity += (product.quantity || 1);
+          existing.quantity = Math.min(10, existing.quantity + Math.max(1, Math.min(10, Number(product.quantity) || 1)));
         } else {
           cart.push({
             id: product.id,
             title: product.title,
             price: product.price,
             image: product.image,
-            quantity: product.quantity || 1,
+            quantity: Math.max(1, Math.min(10, Math.floor(Number(product.quantity) || 1))),
             slug: product.slug
           });
         }
@@ -306,7 +135,7 @@ const {
         let cart = getCart();
         const item = cart.find(i => i.id === id);
         if (item) {
-          item.quantity += delta;
+          item.quantity = Math.min(10, item.quantity + delta);
           if (item.quantity <= 0) {
             cart = cart.filter(i => i.id !== id);
           }
@@ -324,6 +153,11 @@ const {
         const backdrop = document.getElementById('cart-drawer-backdrop');
         const panel = document.getElementById('cart-drawer-panel');
         if (backdrop && panel) {
+          previousFocus = document.activeElement;
+          panel.inert = false;
+          panel.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          document.getElementById('cart-close-btn').focus();
           backdrop.classList.remove('opacity-0', 'pointer-events-none');
           backdrop.classList.add('opacity-100');
           panel.classList.remove('translate-x-full');
@@ -335,6 +169,10 @@ const {
         const backdrop = document.getElementById('cart-drawer-backdrop');
         const panel = document.getElementById('cart-drawer-panel');
         if (backdrop && panel) {
+          panel.inert = true;
+          panel.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          previousFocus?.focus();
           backdrop.classList.add('opacity-0', 'pointer-events-none');
           backdrop.classList.remove('opacity-100');
           panel.classList.add('translate-x-full');
@@ -358,6 +196,7 @@ const {
         const mobMenu = document.getElementById('mobile-menu');
         mobBtn?.addEventListener('click', () => {
           mobMenu?.classList.toggle('hidden');
+          mobBtn.setAttribute('aria-expanded', String(!mobMenu.classList.contains('hidden')));
         });
 
         // Newsletter handler
@@ -372,5 +211,6 @@ const {
         });
       });
     </script>
+
   </body>
 </html>
