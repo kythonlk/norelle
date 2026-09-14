@@ -1,0 +1,253 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Secure Checkout | Norella Luxury Sri Lanka">
+  <div class="bg-[#faf8f5] py-8 border-b border-[#ebdcc9]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="text-xs font-semibold uppercase tracking-[0.25em] text-[#8e7235]">Fast & Confidential</span>
+      <h1 class="font-cinzel text-3xl font-bold text-gray-900 mt-1">Secure Checkout</h1>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Checkout Form -->
+      <div class="lg:col-span-7 space-y-8">
+        <!-- Contact & Delivery Address -->
+        <div class="bg-white p-6 sm:p-8 rounded-sm border border-[#ebdcc9] shadow-xs space-y-6">
+          <h2 class="font-cinzel text-lg font-bold text-gray-900 border-b pb-3">1. Delivery Destination</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">First Name *</label>
+              <input type="text" required class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden" placeholder="e.g. Nimalka" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Last Name *</label>
+              <input type="text" required class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden" placeholder="e.g. Perera" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Mobile Phone (for Courier SMS) *</label>
+              <input type="tel" required class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden" placeholder="+94 77 123 4567" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Email Address *</label>
+              <input type="email" required class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden" placeholder="nimalka@gmail.com" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Street Address *</label>
+            <input type="text" required class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden" placeholder="No. 45, Horton Place" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">District / Province *</label>
+              <select class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden bg-white">
+                <option value="colombo">Colombo</option>
+                <option value="gampaha">Gampaha</option>
+                <option value="kalutara">Kalutara</option>
+                <option value="kandy">Kandy</option>
+                <option value="galle">Galle</option>
+                <option value="matara">Matara</option>
+                <option value="kurunegala">Kurunegala</option>
+                <option value="jaffna">Jaffna</option>
+                <option value="other">Other District (SL)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">City / Town *</label>
+              <input type="text" required class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden" placeholder="Colombo 07" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Postal Code</label>
+              <input type="text" class="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm focus:border-[#d4af37] focus:outline-hidden" placeholder="00700" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="bg-white p-6 sm:p-8 rounded-sm border border-[#ebdcc9] shadow-xs space-y-4">
+          <h2 class="font-cinzel text-lg font-bold text-gray-900 border-b pb-3">2. Payment Method</h2>
+
+          <div class="space-y-3">
+            <label class="flex items-center gap-3 p-3.5 border rounded-sm cursor-pointer hover:border-[#d4af37] transition-colors has-checked:bg-[#faf8f5] has-checked:border-[#d4af37]">
+              <input type="radio" name="payment_method" value="cod" checked class="text-[#c59b27] focus:ring-[#c59b27]" />
+              <div class="flex-1">
+                <div class="font-semibold text-xs text-gray-900">Cash on Delivery (Islandwide Sri Lanka)</div>
+                <div class="text-[11px] text-gray-500">Pay safely when you receive and inspect your package at your doorstep.</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 border rounded-sm cursor-pointer hover:border-[#d4af37] transition-colors has-checked:bg-[#faf8f5] has-checked:border-[#d4af37]">
+              <input type="radio" name="payment_method" value="payhere" class="text-[#c59b27] focus:ring-[#c59b27]" />
+              <div class="flex-1">
+                <div class="font-semibold text-xs text-gray-900">Credit / Debit Card (PayHere Sri Lanka)</div>
+                <div class="text-[11px] text-gray-500">Instant secure processing for Visa, MasterCard, and AMEX.</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 border rounded-sm cursor-pointer hover:border-[#d4af37] transition-colors has-checked:bg-[#faf8f5] has-checked:border-[#d4af37]">
+              <input type="radio" name="payment_method" value="koko" class="text-[#c59b27] focus:ring-[#c59b27]" />
+              <div class="flex-1">
+                <div class="font-semibold text-xs text-gray-900">Koko / Mintpay (Pay in 3 Installments)</div>
+                <div class="text-[11px] text-gray-500">Split into 3 interest-free debit card payments automatically.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary Column -->
+      <div class="lg:col-span-5">
+        <div class="bg-white p-6 rounded-sm border border-[#ebdcc9] shadow-md sticky top-28 space-y-6">
+          <h2 class="font-cinzel text-lg font-bold text-gray-900 border-b pb-3">Order Summary</h2>
+
+          <div id="checkout-items" class="space-y-3 max-h-72 overflow-y-auto divide-y divide-gray-100">
+            <!-- Injected by client script -->
+          </div>
+
+          <!-- Coupon Code -->
+          <div class="pt-2">
+            <div class="flex gap-2">
+              <input id="coupon-input" type="text" placeholder="Promo code (e.g. NORELLE10)" class="flex-1 border border-gray-300 rounded-sm px-3 py-2 text-xs uppercase tracking-wider focus:border-[#d4af37] focus:outline-hidden" />
+              <button id="apply-coupon-btn" class="px-4 py-2 bg-[#120e0b] hover:bg-[#2b0c14] text-[#e8ca65] text-xs font-semibold rounded-sm border border-[#d4af37] uppercase tracking-wider transition-colors">
+                Apply
+              </button>
+            </div>
+            <div id="coupon-message" class="text-xs pt-1.5 hidden"></div>
+          </div>
+
+          <!-- Price Calculation -->
+          <div class="pt-4 border-t border-gray-200 space-y-2 text-xs text-gray-600">
+            <div class="flex justify-between">
+              <span>Items Subtotal</span>
+              <span id="summary-subtotal" class="font-semibold text-gray-900">Rs. 0</span>
+            </div>
+            <div id="discount-row" class="hidden flex justify-between text-emerald-700 font-semibold">
+              <span>Promo Discount</span>
+              <span id="summary-discount">-Rs. 0</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Islandwide Delivery</span>
+              <span class="text-emerald-700 font-semibold">FREE</span>
+            </div>
+            <div class="pt-3 border-t border-gray-200 flex justify-between items-baseline text-base font-bold text-gray-900">
+              <span class="font-cinzel">Total Payable</span>
+              <span id="summary-total" class="text-lg text-[#8e7235]">Rs. 0</span>
+            </div>
+          </div>
+
+          <button id="place-order-btn" class="w-full py-4 bg-gradient-to-r from-[#c59b27] via-[#e8ca65] to-[#aa771c] hover:opacity-95 text-[#0d0a08] font-bold text-xs uppercase tracking-widest shadow-xl transition-all">
+            Confirm & Place Order
+          </button>
+
+          <!-- Success Modal Overlay -->
+          <div id="success-modal" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+            <div class="bg-white max-w-md w-full rounded-sm p-8 text-center space-y-4 border-2 border-[#d4af37] shadow-2xl">
+              <div class="w-16 h-16 bg-[#2b0c14] text-[#e8ca65] rounded-full flex items-center justify-center mx-auto text-2xl border border-[#d4af37]">
+                ✓
+              </div>
+              <h3 class="font-cinzel text-xl font-bold text-gray-900">Order Confirmed!</h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                Thank you for choosing Norella. Your order <span class="font-semibold text-gray-900">#NOR-98241</span> has been received. Our concierge will contact you via WhatsApp/SMS before dispatch.
+              </p>
+              <div class="p-4 bg-[#faf8f5] rounded-sm text-left text-xs space-y-1 text-gray-700 border border-[#ebdcc9]">
+                <div><span class="font-semibold">Delivery Time:</span> 1-2 Working Days (Colombo) / 2-3 Days (Outstation)</div>
+                <div><span class="font-semibold">Payment:</span> Cash on Delivery / PayHere receipt sent</div>
+              </div>
+              <a href="/" onclick="localStorage.removeItem('norella_cart_v1');" class="block w-full py-3 bg-[#120e0b] text-[#e8ca65] font-semibold text-xs uppercase tracking-widest rounded-sm border border-[#d4af37]">
+                Return to Home
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    let discountRate = 0;
+
+    function renderCheckout() {
+      const cart = JSON.parse(localStorage.getItem('norella_cart_v1') || '[]');
+      const container = document.getElementById('checkout-items');
+      const subtotalElem = document.getElementById('summary-subtotal');
+      const totalElem = document.getElementById('summary-total');
+      const discountRow = document.getElementById('discount-row');
+      const discountElem = document.getElementById('summary-discount');
+
+      if (!container) return;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="py-8 text-center text-gray-500 text-xs">
+            Your shopping bag is empty. Please add items to checkout.
+            <div class="mt-2"><a href="/shop" class="text-[#8e7235] font-semibold hover:underline">Go to Shop →</a></div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = cart.map(item => `
+        <div class="py-2.5 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-3">
+            <img src="${item.image}" alt="${item.title}" class="w-12 h-12 object-cover rounded-xs border" />
+            <div>
+              <div class="font-medium text-gray-900 truncate max-w-[180px]">${item.title}</div>
+              <div class="text-gray-500">Qty: ${item.quantity}</div>
+            </div>
+          </div>
+          <div class="font-semibold text-gray-900">Rs. ${(item.price * item.quantity).toLocaleString()}</div>
+        </div>
+      `).join('');
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const discount = subtotal * discountRate;
+      const total = subtotal - discount;
+
+      if (subtotalElem) subtotalElem.textContent = `Rs. ${subtotal.toLocaleString()}`;
+      if (totalElem) totalElem.textContent = `Rs. ${total.toLocaleString()}`;
+
+      if (discount > 0 && discountRow && discountElem) {
+        discountRow.classList.remove('hidden');
+        discountElem.textContent = `-Rs. ${discount.toLocaleString()}`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCheckout();
+
+      document.getElementById('apply-coupon-btn')?.addEventListener('click', () => {
+        const val = (document.getElementById('coupon-input')?.value || '').trim().toUpperCase();
+        const msg = document.getElementById('coupon-message');
+        if (!msg) return;
+
+        if (val === 'NORELLE10') {
+          discountRate = 0.10;
+          msg.textContent = '10% Welcome discount applied!';
+          msg.className = 'text-xs pt-1.5 text-emerald-600 font-semibold';
+          renderCheckout();
+        } else if (val === 'BRIDALGOLD') {
+          discountRate = 0.15;
+          msg.textContent = '15% Bridal luxury discount applied!';
+          msg.className = 'text-xs pt-1.5 text-emerald-600 font-semibold';
+          renderCheckout();
+        } else {
+          msg.textContent = 'Invalid promo code. Try NORELLE10';
+          msg.className = 'text-xs pt-1.5 text-red-500 font-semibold';
+        }
+      });
+
+      document.getElementById('place-order-btn')?.addEventListener('click', () => {
+        const modal = document.getElementById('success-modal');
+        if (modal) modal.classList.remove('hidden');
+      });
+    });
+  </script>
+</Layout>

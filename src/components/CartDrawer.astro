@@ -1,0 +1,157 @@
+---
+---
+
+<div id="norella-cart-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+<aside
+  id="norella-cart-drawer"
+  class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-[#faf8f5] shadow-2xl border-l border-[#e2d7cc] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col"
+  aria-label="Shopping bag drawer"
+>
+  <!-- Drawer Header -->
+  <div class="px-6 py-5 border-b border-[#e2d7cc] flex items-center justify-between bg-white">
+    <div class="flex items-center gap-2">
+      <svg class="w-5 h-5 text-[#b38f29]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+      </svg>
+      <h2 class="font-serif-luxury text-xl font-bold tracking-wider uppercase text-[#241c18]">Your Luxury Bag</h2>
+    </div>
+    <button
+      type="button"
+      id="close-cart-btn"
+      class="text-[#7d6c62] hover:text-[#1f1916] p-1 transition-colors"
+      aria-label="Close bag"
+      onclick="window.closeNorellaCart()"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Cart Items List Container -->
+  <div id="cart-drawer-items" class="flex-grow overflow-y-auto px-6 py-4 space-y-4">
+    <!-- Populated dynamically via JS -->
+    <div class="text-center py-16 text-[#8a796e]">
+      <p class="font-serif-luxury text-lg mb-2">Your bag is currently empty</p>
+      <p class="text-xs">Explore our royal skincare and heirloom jewels.</p>
+    </div>
+  </div>
+
+  <!-- Drawer Footer: Subtotal & Checkout -->
+  <div class="p-6 border-t border-[#e2d7cc] bg-white space-y-4">
+    <div class="flex justify-between items-baseline">
+      <span class="text-xs uppercase tracking-widest text-[#736359] font-medium">Estimated Subtotal</span>
+      <span id="cart-drawer-subtotal" class="font-serif-luxury text-2xl font-bold text-[#1f1916]">Rs. 0</span>
+    </div>
+
+    <p class="text-[11px] text-[#8a796e] italic">
+      Taxes and islandwide courier calculated at checkout. Orders above Rs. 15,000 ship complimentary.
+    </p>
+
+    <div class="grid grid-cols-2 gap-3 pt-2">
+      <a
+        href="/cart"
+        class="block text-center py-3 px-4 border border-[#241c18] text-[#241c18] hover:bg-[#f0ebe3] text-xs font-semibold tracking-widest uppercase transition-colors rounded-xs"
+      >
+        View Bag
+      </a>
+      <a
+        href="/checkout"
+        class="block text-center py-3 px-4 bg-[#241c18] hover:bg-[#b38f29] text-white text-xs font-semibold tracking-widest uppercase transition-colors rounded-xs shadow-md"
+      >
+        Checkout
+      </a>
+    </div>
+  </div>
+</aside>
+
+<script is:inline>
+  window.openNorellaCart = function() {
+    const drawer = document.getElementById('norella-cart-drawer');
+    const overlay = document.getElementById('norella-cart-overlay');
+    if (drawer && overlay) {
+      window.renderNorellaCartDrawer();
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      drawer.classList.remove('translate-x-full');
+    }
+  };
+
+  window.closeNorellaCart = function() {
+    const drawer = document.getElementById('norella-cart-drawer');
+    const overlay = document.getElementById('norella-cart-overlay');
+    if (drawer && overlay) {
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      drawer.classList.add('translate-x-full');
+    }
+  };
+
+  document.getElementById('norella-cart-overlay')?.addEventListener('click', window.closeNorellaCart);
+
+  window.renderNorellaCartDrawer = function() {
+    const container = document.getElementById('cart-drawer-items');
+    const subtotalEl = document.getElementById('cart-drawer-subtotal');
+    if (!container || !subtotalEl) return;
+
+    const cart = window.getNorellaCart ? window.getNorellaCart() : [];
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <div class="text-center py-16 text-[#8a796e]">
+          <p class="font-serif-luxury text-lg mb-2">Your bag is currently empty</p>
+          <a href="/shop" onclick="window.closeNorellaCart()" class="inline-block mt-3 text-xs uppercase tracking-widest font-semibold text-[#b38f29] underline">
+            Explore Collections &rarr;
+          </a>
+        </div>
+      `;
+      subtotalEl.textContent = 'Rs. 0';
+      return;
+    }
+
+    let subtotal = 0;
+    container.innerHTML = cart.map((item, idx) => {
+      const itemTotal = item.price * (item.quantity || 1);
+      subtotal += itemTotal;
+      const img = item.images && item.images[0] ? item.images[0].url : '/images/serum.jpg';
+      return `
+        <div class="flex gap-4 p-3 bg-[#faf8f5] border border-[#ebe2d8] rounded-xs">
+          <img src="${img}" alt="${item.title}" class="w-16 h-20 object-cover rounded-xs border border-[#e0d6cb]" />
+          <div class="flex-grow flex flex-col justify-between">
+            <div>
+              <h4 class="font-serif-luxury text-sm font-semibold text-[#1f1916] line-clamp-1">${item.title}</h4>
+              <p class="text-[11px] text-[#736359]">${item.category}</p>
+              <p class="text-xs font-semibold text-[#b38f29] mt-1">Rs. ${(item.price).toLocaleString()}</p>
+            </div>
+            <div class="flex items-center justify-between mt-2 pt-1 border-t border-[#eee5dc]">
+              <div class="flex items-center border border-[#d8cdbf] rounded-xs bg-white text-xs">
+                <button type="button" class="px-2 py-0.5 hover:bg-[#eee]" onclick="window.changeCartQty(${idx}, -1)">-</button>
+                <span class="px-2 font-medium">${item.quantity || 1}</span>
+                <button type="button" class="px-2 py-0.5 hover:bg-[#eee]" onclick="window.changeCartQty(${idx}, 1)">+</button>
+              </div>
+              <button type="button" class="text-[11px] text-red-700 hover:underline" onclick="window.removeCartItem(${idx})">Remove</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    subtotalEl.textContent = `Rs. ${subtotal.toLocaleString()}`;
+  };
+
+  window.changeCartQty = function(index, delta) {
+    const cart = window.getNorellaCart();
+    if (!cart[index]) return;
+    cart[index].quantity = (cart[index].quantity || 1) + delta;
+    if (cart[index].quantity <= 0) {
+      cart.splice(index, 1);
+    }
+    window.saveNorellaCart(cart);
+    window.renderNorellaCartDrawer();
+  };
+
+  window.removeCartItem = function(index) {
+    const cart = window.getNorellaCart();
+    cart.splice(index, 1);
+    window.saveNorellaCart(cart);
+    window.renderNorellaCartDrawer();
+  };
+</script>

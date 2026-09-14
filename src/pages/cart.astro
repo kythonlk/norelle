@@ -1,0 +1,192 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Shopping Bag | Norella Luxury Sri Lanka">
+  <div class="bg-[#f5ede3] py-10 border-b border-[#e5dacf]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="font-serif-luxury text-3xl sm:text-4xl text-[#1f1916] font-normal">
+        Your Curated Bag
+      </h1>
+      <p class="text-xs text-[#7d6c62] mt-1">Review your selections before proceeding to luxury packaging & courier.</p>
+    </div>
+  </div>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      
+      <!-- Cart Items Table -->
+      <div class="lg:col-span-2 space-y-6">
+        <div id="cart-page-items" class="space-y-4">
+          <!-- Populated by JS -->
+          <div class="p-12 text-center bg-white border border-[#e5ded6] rounded-xs">
+            <p class="font-serif-luxury text-lg text-[#241c18]">Loading your luxury selections...</p>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center pt-4">
+          <a href="/shop" class="text-xs uppercase tracking-widest font-semibold text-[#b38f29] hover:underline flex items-center gap-2">
+            &larr; Continue Exploring Collections
+          </a>
+          <button type="button" onclick="localStorage.removeItem('norella_cart'); window.dispatchEvent(new CustomEvent('norella:cart_updated')); renderCartPage();" class="text-xs text-red-700 hover:underline">
+            Empty Bag
+          </button>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="bg-white border border-[#e5ded6] rounded-xs p-6 shadow-sm space-y-6 h-fit">
+        <h2 class="font-serif-luxury text-xl font-semibold text-[#1f1916] pb-3 border-b border-[#eee5dc]">
+          Order Summary
+        </h2>
+
+        <div class="space-y-3 text-xs text-[#6e5d53]">
+          <div class="flex justify-between">
+            <span>Bag Subtotal</span>
+            <span id="page-subtotal" class="font-semibold text-[#1f1916]">Rs. 0</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span>Islandwide Insured Delivery</span>
+            <span id="page-shipping" class="text-green-800 font-semibold">Free</span>
+          </div>
+
+          <div id="discount-row" class="hidden justify-between text-[#b38f29] font-semibold">
+            <span>Privilege Discount</span>
+            <span id="page-discount">- Rs. 0</span>
+          </div>
+        </div>
+
+        <!-- Coupon Input -->
+        <div class="pt-4 border-t border-[#eee5dc] space-y-2">
+          <label for="coupon-code" class="block text-[11px] uppercase tracking-widest text-[#736359] font-medium">Privilege Code</label>
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="coupon-code"
+              placeholder="e.g. NORELLE10"
+              class="flex-grow px-3 py-2 text-xs border border-[#d8cdbf] rounded-xs uppercase focus:outline-none focus:border-[#b38f29]"
+            />
+            <button
+              type="button"
+              id="apply-coupon-btn"
+              class="px-4 py-2 bg-[#241c18] hover:bg-[#b38f29] text-white text-xs font-semibold uppercase tracking-wider rounded-xs transition-colors"
+            >
+              Apply
+            </button>
+          </div>
+          <p id="coupon-msg" class="text-[11px] text-[#b38f29]"></p>
+        </div>
+
+        <!-- Grand Total -->
+        <div class="pt-4 border-t border-[#eee5dc] flex justify-between items-baseline">
+          <span class="text-xs uppercase tracking-widest font-bold text-[#1f1916]">Total Amount</span>
+          <span id="page-total" class="font-serif-luxury text-2xl font-bold text-[#1f1916]">Rs. 0</span>
+        </div>
+
+        <a
+          href="/checkout"
+          class="block text-center py-4 bg-[#b38f29] hover:bg-[#c9a12e] text-[#191412] text-xs uppercase font-bold tracking-[0.2em] rounded-xs shadow-lg transition-all"
+        >
+          Proceed to Checkout
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <script is:inline>
+    let activeDiscount = 0;
+
+    function renderCartPage() {
+      const container = document.getElementById('cart-page-items');
+      const subtotalEl = document.getElementById('page-subtotal');
+      const totalEl = document.getElementById('page-total');
+      const shippingEl = document.getElementById('page-shipping');
+      const discountRow = document.getElementById('discount-row');
+      const discountEl = document.getElementById('page-discount');
+      if (!container || !subtotalEl || !totalEl) return;
+
+      const cart = window.getNorellaCart ? window.getNorellaCart() : [];
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="p-16 text-center bg-white border border-[#e5ded6] rounded-xs space-y-4">
+            <h3 class="font-serif-luxury text-2xl text-[#1f1916]">Your luxury bag is currently empty</h3>
+            <p class="text-xs text-[#7d6c62]">Select timeless jewelry and skincare to proceed with bespoke delivery.</p>
+            <a href="/shop" class="inline-block mt-4 px-6 py-3 bg-[#b38f29] text-[#1f1916] text-xs uppercase font-bold tracking-widest rounded-xs">
+              Explore Collections
+            </a>
+          </div>
+        `;
+        subtotalEl.textContent = 'Rs. 0';
+        totalEl.textContent = 'Rs. 0';
+        return;
+      }
+
+      let subtotal = 0;
+      container.innerHTML = cart.map((item, idx) => {
+        const itemTotal = item.price * (item.quantity || 1);
+        subtotal += itemTotal;
+        const img = item.images && item.images[0] ? item.images[0].url : '/images/serum.jpg';
+        return `
+          <div class="flex flex-col sm:flex-row items-center gap-6 p-5 bg-white border border-[#e5ded6] rounded-xs shadow-xs">
+            <img src="${img}" alt="${item.title}" class="w-24 h-28 object-cover rounded-xs border border-[#ebe2d8]" />
+            <div class="flex-grow space-y-1 text-center sm:text-left">
+              <span class="text-[10px] uppercase tracking-wider text-[#b38f29] font-bold">${item.category}</span>
+              <h3 class="font-serif-luxury text-lg font-semibold text-[#1f1916]">${item.title}</h3>
+              <p class="text-xs text-[#736359]">Unit Price: Rs. ${item.price.toLocaleString()}</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="flex items-center border border-[#d8cdbf] rounded-xs bg-white text-xs">
+                <button type="button" class="px-2.5 py-1 hover:bg-[#eee]" onclick="window.changeCartQty(${idx}, -1); renderCartPage();">-</button>
+                <span class="px-3 font-semibold">${item.quantity || 1}</span>
+                <button type="button" class="px-2.5 py-1 hover:bg-[#eee]" onclick="window.changeCartQty(${idx}, 1); renderCartPage();">+</button>
+              </div>
+              <span class="font-serif-luxury text-base font-bold text-[#1f1916] min-w-[90px] text-right">
+                Rs. ${itemTotal.toLocaleString()}
+              </span>
+              <button type="button" class="text-red-700 hover:text-red-900 p-1" onclick="window.removeCartItem(${idx}); renderCartPage();">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const discountAmt = Math.round(subtotal * activeDiscount);
+      const shipping = subtotal >= 15000 ? 0 : 750;
+      const total = subtotal - discountAmt + shipping;
+
+      subtotalEl.textContent = `Rs. ${subtotal.toLocaleString()}`;
+      shippingEl.textContent = shipping === 0 ? 'Complimentary (Free)' : `Rs. ${shipping.toLocaleString()}`;
+      
+      if (activeDiscount > 0) {
+        discountRow.classList.remove('hidden');
+        discountRow.classList.add('flex');
+        discountEl.textContent = `- Rs. ${discountAmt.toLocaleString()} (${activeDiscount * 100}%)`;
+      } else {
+        discountRow.classList.add('hidden');
+        discountRow.classList.remove('flex');
+      }
+
+      totalEl.textContent = `Rs. ${total.toLocaleString()}`;
+    }
+
+    document.getElementById('apply-coupon-btn')?.addEventListener('click', () => {
+      const code = document.getElementById('coupon-code').value.trim().toUpperCase();
+      const msg = document.getElementById('coupon-msg');
+      if (code === 'NORELLE10' || code === 'BRIDALGOLD') {
+        activeDiscount = code === 'BRIDALGOLD' ? 0.15 : 0.10;
+        msg.textContent = `✓ Promotion ${code} successfully activated!`;
+        msg.className = 'text-[11px] text-green-700 font-semibold';
+      } else {
+        msg.textContent = 'Invalid promo code. Try NORELLE10 or BRIDALGOLD';
+        msg.className = 'text-[11px] text-red-700';
+      }
+      renderCartPage();
+    });
+
+    window.addEventListener('DOMContentLoaded', renderCartPage);
+    window.addEventListener('norella:cart_updated', renderCartPage);
+  </script>
+</Layout>

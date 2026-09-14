@@ -1,0 +1,125 @@
+---
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "All Collection", href: "/shop" },
+  { name: "Cosmetics & Skincare", href: "/shop?category=cosmetics-skincare" },
+  { name: "Gold-Plated Jewellery", href: "/shop?category=gold-plated-jewellery" },
+  { name: "Indian Sarees", href: "/shop?category=indian-sarees" },
+  { name: "About Heritage", href: "/about" },
+  { name: "Contact", href: "/contact" },
+];
+---
+
+<header class="sticky top-0 z-40 bg-[#faf8f5]/95 backdrop-blur-md border-b border-[#e5ded6] transition-all">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Mobile menu button -->
+      <div class="flex items-center lg:hidden">
+        <button type="button" id="mobile-menu-toggle" class="text-[#2c221e] hover:text-[#d4af37] p-2 focus:outline-none" aria-label="Open menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Brand Logo -->
+      <div class="flex-shrink-0 flex items-center gap-3">
+        <a href="/" class="flex items-center gap-3 group">
+          <img src="/images/logo.jpg" alt="Norella Luxury Logo" class="h-12 w-12 rounded-full object-cover border border-[#d4af37]/50 shadow-sm group-hover:scale-105 transition-transform" />
+          <div class="flex flex-col">
+            <span class="font-serif-luxury text-2xl tracking-[0.2em] font-semibold text-[#1f1916] uppercase group-hover:text-[#d4af37] transition-colors">Norella</span>
+            <span class="text-[9px] tracking-[0.3em] uppercase text-[#735e52] -mt-1 font-medium">Haute Joaillerie & Beauty</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center space-x-6">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-xs font-medium tracking-[0.15em] uppercase text-[#3e322b] hover:text-[#b38f29] transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#b38f29] hover:after:w-full after:transition-all"
+          >
+            {link.name}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Right Actions: Currency, Search, Cart Button -->
+      <div class="flex items-center space-x-4">
+        <!-- Currency Pill -->
+        <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-[#efe9df] text-[#5e4b3e] border border-[#d8cdbf]">
+          LKR (Rs.)
+        </span>
+
+        <!-- Search link -->
+        <a href="/shop" class="text-[#2c221e] hover:text-[#d4af37] p-2 transition-colors" title="Search catalog">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </a>
+
+        <!-- Cart Trigger Button -->
+        <button
+          type="button"
+          id="cart-trigger-btn"
+          class="relative p-2 text-[#2c221e] hover:text-[#d4af37] transition-colors flex items-center"
+          aria-label="View shopping bag"
+          onclick="window.openNorellaCart()"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span
+            id="header-cart-count"
+            class="absolute top-1 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-[#b38f29] rounded-full min-w-[18px] min-h-[18px]"
+          >
+            0
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-[#f4eee6] border-b border-[#ded2c4] px-4 pt-3 pb-6 space-y-3">
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class="block text-sm font-medium tracking-wider uppercase text-[#3e322b] hover:text-[#b38f29] py-2 border-b border-[#e7ddd0]/60"
+      >
+        {link.name}
+      </a>
+    ))}
+    <div class="pt-2 flex justify-between items-center text-xs text-[#735e52]">
+      <span>Store Currency: LKR</span>
+      <a href="/cart" class="text-[#b38f29] font-semibold underline">View Shopping Bag</a>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  // Sync Cart Count
+  function updateHeaderCartCount() {
+    const badge = document.getElementById('header-cart-count');
+    if (badge && window.getNorellaCart) {
+      const cart = window.getNorellaCart();
+      const count = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', updateHeaderCartCount);
+  window.addEventListener('norella:cart_updated', updateHeaderCartCount);
+
+  // Toggle mobile menu
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>

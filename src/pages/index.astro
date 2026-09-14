@@ -1,17 +1,225 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getProducts } from '../lib/api';
 
+const products = await getProducts();
+const featuredProducts = products.filter(p => p.is_featured);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <!-- Hero Section -->
+  <section class="relative bg-[#0d0a08] text-white min-h-[620px] lg:min-h-[700px] flex items-center overflow-hidden">
+    <!-- Background Banner Image with Gradient Overlay -->
+    <div class="absolute inset-0 z-0">
+      <img 
+        src="/images/hero-banner.jpg" 
+        alt="Norella Luxury Sri Lanka Banner" 
+        class="w-full h-full object-cover object-center lg:object-[center_35%] filter brightness-90"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#0d0a08]/90 via-[#0d0a08]/60 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0d0a08] via-transparent to-black/30"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+      <div class="max-w-2xl space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#d4af37]/40 text-[#f3e5ab] text-xs font-semibold tracking-widest uppercase">
+          <span class="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse"></span>
+          New Festive & Bridal 2026 Collection
+        </div>
+
+        <h1 class="font-cinzel text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          Where Royal Elegance <br />
+          <span class="gold-gradient-text">Meets Timeless Grace</span>
+        </h1>
+
+        <p class="text-sm sm:text-base text-gray-200 leading-relaxed font-light font-playfair italic max-w-xl">
+          Immerse yourself in pure luxury. From radiant 24K gold-infused Ayurvedic elixirs to handcrafted 22K gold-plated temple jewellery and authentic handloom Indian silk sarees.
+        </p>
+
+        <div class="pt-4 flex flex-wrap gap-4">
+          <a 
+            href="/shop?category=indian-sarees" 
+            class="px-8 py-3.5 bg-gradient-to-r from-[#c59b27] via-[#e8ca65] to-[#aa771c] hover:opacity-95 text-[#0d0a08] font-bold text-xs sm:text-sm uppercase tracking-widest shadow-xl transition-all hover:scale-102"
+          >
+            Explore Sarees
+          </a>
+          <a 
+            href="/shop?category=gold-plated-jewellery" 
+            class="px-8 py-3.5 bg-black/50 hover:bg-black/80 text-[#f3e5ab] border border-[#d4af37] font-semibold text-xs sm:text-sm uppercase tracking-widest backdrop-blur-xs transition-all hover:scale-102"
+          >
+            View 22K Jewellery
+          </a>
+        </div>
+
+        <!-- Trust Badges Under Hero -->
+        <div class="pt-8 border-t border-white/20 grid grid-cols-3 gap-4 text-xs text-gray-300">
+          <div>
+            <span class="block font-bold text-white font-cinzel text-sm">22K Plated</span>
+            <span class="text-[11px] text-[#e8ca65]">Anti-Tarnish Lifetime</span>
+          </div>
+          <div>
+            <span class="block font-bold text-white font-cinzel text-sm">100% Silk</span>
+            <span class="text-[11px] text-[#e8ca65]">Silk Mark Certified</span>
+          </div>
+          <div>
+            <span class="block font-bold text-white font-cinzel text-sm">Islandwide</span>
+            <span class="text-[11px] text-[#e8ca65]">Colombo 24h Delivery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Showcase -->
+  <section class="py-16 bg-[#faf8f5]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-semibold uppercase tracking-[0.25em] text-[#8e7235]">Three Pillars of Grandeur</span>
+        <h2 class="font-cinzel text-3xl font-bold text-gray-900 mt-2">Curated for Queens</h2>
+        <div class="w-16 h-0.5 bg-[#d4af37] mx-auto mt-4"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Category 1: Cosmetics -->
+        <a href="/shop?category=cosmetics-skincare" class="group relative h-96 rounded-sm overflow-hidden shadow-lg">
+          <img src="/images/serum.jpg" alt="Cosmetics & Skincare" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white space-y-1">
+            <span class="text-[10px] text-[#e8ca65] uppercase tracking-widest font-semibold">Ayurvedic Radiance</span>
+            <h3 class="font-cinzel text-xl font-bold text-white group-hover:text-[#f3e5ab] transition-colors">24K Gold & Cosmetics</h3>
+            <p class="text-xs text-gray-300 font-light">Facial elixirs, organic glow oils & bridal cosmetics</p>
+            <span class="inline-block pt-2 text-xs font-semibold text-[#e8ca65] group-hover:translate-x-1 transition-transform">Discover Collection →</span>
+          </div>
+        </a>
+
+        <!-- Category 2: Jewellery -->
+        <a href="/shop?category=gold-plated-jewellery" class="group relative h-96 rounded-sm overflow-hidden shadow-lg">
+          <img src="/images/jewel.jpg" alt="22K Gold Plated Jewellery" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white space-y-1">
+            <span class="text-[10px] text-[#e8ca65] uppercase tracking-widest font-semibold">Heirloom Handcraft</span>
+            <h3 class="font-cinzel text-xl font-bold text-white group-hover:text-[#f3e5ab] transition-colors">22K Gold-Plated Jewellery</h3>
+            <p class="text-xs text-gray-300 font-light">Temple chokers, Kundan sets & bridal Lakshmi bangles</p>
+            <span class="inline-block pt-2 text-xs font-semibold text-[#e8ca65] group-hover:translate-x-1 transition-transform">Explore Jewellery →</span>
+          </div>
+        </a>
+
+        <!-- Category 3: Sarees -->
+        <a href="/shop?category=indian-sarees" class="group relative h-96 rounded-sm overflow-hidden shadow-lg">
+          <img src="/images/saree.jpg" alt="Authentic Indian Sarees" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white space-y-1">
+            <span class="text-[10px] text-[#e8ca65] uppercase tracking-widest font-semibold">Pure Weaves</span>
+            <h3 class="font-cinzel text-xl font-bold text-white group-hover:text-[#f3e5ab] transition-colors">Authentic Indian Sarees</h3>
+            <p class="text-xs text-gray-300 font-light">Pure Kanchipuram silk & Banarasi kadwa zari sarees</p>
+            <span class="inline-block pt-2 text-xs font-semibold text-[#e8ca65] group-hover:translate-x-1 transition-transform">View Sarees →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Catalog -->
+  <section class="py-16 bg-white border-y border-[#ebdcc9]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-[0.25em] text-[#8e7235]">Iconic Creations</span>
+          <h2 class="font-cinzel text-3xl font-bold text-gray-900 mt-1">Featured Masterpieces</h2>
+        </div>
+        <a href="/shop" class="text-xs font-bold uppercase tracking-widest text-[#8e7235] hover:text-[#2b0c14] transition-colors flex items-center gap-1">
+          View All {products.length} Items In Store →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {featuredProducts.map(product => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Artisan Heritage Spotlight -->
+  <section class="py-20 bg-[#120e0b] text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <span class="text-xs font-semibold tracking-[0.25em] text-[#e8ca65] uppercase">The Norella Standard</span>
+        <h2 class="font-cinzel text-3xl sm:text-4xl font-bold leading-tight">
+          Purity in Every Thread, <br />
+          <span class="gold-gradient-text">Radiance in Every Karat</span>
+        </h2>
+        <p class="text-sm text-gray-300 leading-relaxed font-light">
+          Founded in Colombo, Norella is Sri Lanka’s hallmark of uncompromising luxury. Each saree is personally hand-selected from historic looms in Kanchipuram and Varanasi, backed by official Silk Mark authenticity.
+        </p>
+        <p class="text-sm text-gray-300 leading-relaxed font-light">
+          Our jewellery is coated with an ultra-durable 22K micro-gold plating technology guaranteed to resist the tropical humidity of Sri Lanka, while our cosmetics infuse genuine 24-karat gold with ancient Ayurvedic botanical science.
+        </p>
+
+        <div class="grid grid-cols-2 gap-6 pt-4 border-t border-white/10">
+          <div>
+            <div class="text-2xl font-bold font-cinzel text-[#e8ca65]">5,000+</div>
+            <div class="text-xs text-gray-400 mt-1">Brides Styled in Sri Lanka</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold font-cinzel text-[#e8ca65]">100%</div>
+            <div class="text-xs text-gray-400 mt-1">Handloom Silk Mark Authenticity</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="relative rounded-sm overflow-hidden border-2 border-[#d4af37] shadow-2xl">
+          <img src="/images/hero-banner.jpg" alt="Norella Heritage" class="w-full h-[450px] object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Testimonials -->
+  <section class="py-16 bg-[#faf8f5]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-semibold uppercase tracking-[0.25em] text-[#8e7235]">Words of Grace</span>
+        <h2 class="font-cinzel text-3xl font-bold text-gray-900 mt-2">Client Testimonials</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-sm border border-[#ebdcc9] shadow-xs space-y-3">
+          <div class="text-[#d4af37] text-sm">★★★★★</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed font-playfair">
+            "My Kanchipuram bridal saree from Norella was the centerpiece of my wedding at Shangri-La Colombo. The gold zari luster was breathtaking, and delivery was right on time!"
+          </p>
+          <div class="pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-gray-900">Dr. Ruwani Jayawardena</span>
+            <span class="text-gray-400">Colombo 07</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-sm border border-[#ebdcc9] shadow-xs space-y-3">
+          <div class="text-[#d4af37] text-sm">★★★★★</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed font-playfair">
+            "The 22K gold-plated Kundan choker looks identical to real gold jewellery! Wore it for two festive receptions and received endless compliments. Exceptional finish."
+          </p>
+          <div class="pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-gray-900">Shanika Wickramasinghe</span>
+            <span class="text-gray-400">Kandy</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-sm border border-[#ebdcc9] shadow-xs space-y-3">
+          <div class="text-[#d4af37] text-sm">★★★★★</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed font-playfair">
+            "The 24K Aurum facial serum gave my skin an instant radiant glow without any oiliness. Essential part of my morning skincare routine now. Truly high end."
+          </p>
+          <div class="pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-gray-900">Dilini Fernando</span>
+            <span class="text-gray-400">Galle Fort</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
