@@ -130,6 +130,21 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .results-toolbar { display: flex; justify-content: space-between; padding: 24px 0; font-size: 11px; color: var(--muted); }
 .results-toolbar select { padding: 9px; margin-left: 8px; color: var(--ink); }
 .empty-results { padding: 70px 20px; text-align: center; }
+.variant-picker { border-top: 1px solid #e5ded3; border-bottom: 1px solid #e5ded3; padding: 20px 0; display: grid; gap: 15px; }
+.variant-label, .variant-picker legend { font-size: 10px; text-transform: uppercase; letter-spacing: .13em; font-weight: 700; color: #635346; }
+.variant-picker fieldset { display: grid; gap: 8px; }
+.variant-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.variant-option { border: 1px solid #cabdab; padding: 9px 11px; font-size: 11px; background: #fffdfa; }
+.variant-option[aria-pressed="true"] { background: var(--wine); color: white; border-color: var(--wine); }
+.variant-stock { font-size: 11px; color: var(--muted); }
+.saree-studio { background: #efe6db; padding: 23px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.saree-studio h2 { font-size: 22px; margin: 8px 0; letter-spacing: -.02em; }
+.saree-studio p:not(.eyebrow) { color: var(--muted); font-size: 11px; line-height: 1.7; }
+.saree-studio form { display: grid; gap: 11px; align-content: start; }
+.saree-studio label { display: grid; gap: 6px; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.saree-studio input { border: 1px solid #cabdab; background: #fffdfa; padding: 10px; font-size: 11px; text-transform: none; letter-spacing: normal; }
+.studio-button { background: var(--wine); color: white; padding: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; }
+#saree-preview-status { min-height: 17px; }
 .empty-results h2 { font-size: 30px; }
 .empty-results p { margin: 15px 0 25px; color: var(--muted); }
 @media (max-width: 1100px) { .catalog-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } .shop-toolbar { flex-direction: column; } }
@@ -139,6 +154,7 @@ button:disabled { cursor: not-allowed; opacity: .5; }
   .section-heading { align-items: start; flex-direction: column; gap: 16px; } .collection-grid { gap: 30px; grid-template-columns: 1fr; } .collection-image { aspect-ratio: 4/3; }
   .catalog-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 25px 15px; } .product-info h3 { font-size: 15px; } .product-badge { font-size: 7px; top: 8px; left: 8px; padding: 5px; }
   .heritage-section { grid-template-columns: 1fr; } .heritage-image { max-height: 350px; } .heritage-copy { padding: 40px 25px; }
+  .saree-studio { grid-template-columns: 1fr; }
   .occasion-links { grid-template-columns: 1fr; gap: 15px; } .shop-content { padding-top: 0; } .filter-tabs button { padding: 10px; } .search-field input { width: 100%; min-width: 0; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
