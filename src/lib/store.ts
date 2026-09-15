@@ -1,3 +1,5 @@
+import { getApiBase, resolveProxyUrl } from './api';
+
 export interface Product {
   id: string;
   title: string;
@@ -78,9 +80,9 @@ export const NORELLA_PRODUCTS: Product[] = [
 
 export async function getProducts(): Promise<Product[]> {
   try {
-    const res = await fetch("http://localhost:8080/api/v1/products", {
+    const res = await fetch(`${getApiBase()}/products`, {
       headers: { "X-Store-ID": "store_norella" },
-      signal: AbortSignal.timeout(1000)
+      signal: AbortSignal.timeout(3000)
     });
     if (res.ok) {
       const data = await res.json();
@@ -88,6 +90,9 @@ export async function getProducts(): Promise<Product[]> {
         // Map backend product to storefront product with image fallbacks
         return data.data.map((p: any) => {
           const fallback = NORELLA_PRODUCTS.find(np => np.slug === p.slug || np.title === p.title);
+          const images = p.images && p.images.length > 0
+            ? p.images.map((img: any) => ({ ...img, url: resolveProxyUrl(img.url) }))
+            : (fallback?.images || [{ id: "img", url: "/images/serum.jpg", alt_text: p.title, is_primary: true }]);
           return {
             id: p.id,
             title: p.title,
@@ -100,7 +105,7 @@ export async function getProducts(): Promise<Product[]> {
             category: fallback?.category || "Luxury Collection",
             category_slug: fallback?.category_slug || "luxury",
             tags: p.tags || fallback?.tags || [],
-            images: fallback?.images || [{ id: "img", url: "/images/serum.jpg", alt_text: p.title, is_primary: true }],
+            images,
             rating: p.avg_rating || fallback?.rating || 5.0,
             review_count: p.review_count || fallback?.review_count || 12,
             is_featured: p.is_featured ?? true

@@ -34,7 +34,7 @@ const links = [['/shop', 'Shop all'], ['/shop?category=indian-sarees', 'Silk sar
       function getCart() {
         try {
           const value = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
-          return Array.isArray(value) ? value.filter(item => item && typeof item.id === 'string' && /^[a-zA-Z0-9_-]+$/.test(item.id) && typeof item.title === 'string' && !/[<>"]/.test(item.title) && typeof item.image === 'string' && /^\/[a-zA-Z0-9/_.-]+$/.test(item.image) && Number.isFinite(item.price) && item.price >= 0 && Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 10) : [];
+          return Array.isArray(value) ? value.filter(item => item && typeof item.id === 'string' && /^[a-zA-Z0-9_-]+$/.test(item.id) && typeof item.title === 'string' && !/[<>"]/.test(item.title) && typeof item.image === 'string' && !/[<>"]/.test(item.image) && (item.image.startsWith('/') || /^https?:\/\//.test(item.image)) && Number.isFinite(item.price) && item.price >= 0 && Number.isInteger(item.quantity) && item.quantity > 0 && item.quantity <= 10) : [];
         } catch {
           return [];
         }

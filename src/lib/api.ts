@@ -44,7 +44,56 @@ export interface Category {
   image_url: string;
 }
 
-const API_BASE = import.meta.env.PUBLIC_API_URL || "http://76.13.221.75:9488/api/v1";
+const BACKEND_URL = (
+  import.meta.env.BACKEND_URL ||
+  (import.meta.env.PUBLIC_API_URL && import.meta.env.PUBLIC_API_URL.startsWith('http')
+    ? new URL(import.meta.env.PUBLIC_API_URL).origin
+    : 'http://76.13.221.75:9488')
+).replace(/\/$/, '');
+
+export function getApiBase(): string {
+  if (typeof window !== 'undefined') {
+    return import.meta.env.PUBLIC_API_URL || '/api/v1';
+  }
+  if (import.meta.env.PUBLIC_API_URL && (import.meta.env.PUBLIC_API_URL.startsWith('http://') || import.meta.env.PUBLIC_API_URL.startsWith('https://'))) {
+    return import.meta.env.PUBLIC_API_URL;
+  }
+  return `${BACKEND_URL}/api/v1`;
+}
+
+export const API_BASE = getApiBase();
+
+/**
+ * Normalizes image URLs so HTTP backend images are served via Vite proxy (/uploads/...),
+ * arbitrary external HTTP images are routed via /proxy-image, and HTTPS/local paths are kept intact.
+ */
+export function resolveProxyUrl(url?: string): string {
+  if (!url) return '/images/serum.jpg';
+
+  // If already relative
+  if (url.startsWith('/')) {
+    return url;
+  }
+
+  // If it matches the backend origin, turn into a relative path for Vite proxy
+  if (url.startsWith(BACKEND_URL)) {
+    const rel = url.slice(BACKEND_URL.length);
+    return rel.startsWith('/') ? rel : `/${rel}`;
+  }
+
+  // If it contains /uploads/, route via the /uploads proxy
+  if (url.includes('/uploads/')) {
+    return url.slice(url.indexOf('/uploads/'));
+  }
+
+  // If it's another HTTP URL, proxy it to avoid mixed content
+  if (url.startsWith('http://')) {
+    return `/proxy-image?url=${encodeURIComponent(url)}`;
+  }
+
+  return url;
+}
+
 const STORE_ID = "store_norella";
 
 export const FALLBACK_PRODUCTS: Product[] = [
@@ -245,11 +294,11 @@ skincareSamples.forEach(([title, slug, price, brand, imageKey, size], index) => 
 });
 
 export async function getProducts(categorySlug?: string): Promise<Product[]> {
-  if (!API_BASE) return categorySlug ? FALLBACK_PRODUCTS.filter(p => p.category_slug === categorySlug) : FALLBACK_PRODUCTS;
+  const apiBase = getApiBase();
   try {
-    const res = await fetch(`${API_BASE}/products`, {
+    const res = await fetch(`${apiBase}/products`, {
       headers: { "X-Store-ID": STORE_ID },
-      signal: AbortSignal.timeout(2000),
+      signal: AbortSignal.timeout(3000),
     });
     if (res.ok) {
       const json = await res.json();
@@ -258,8 +307,13 @@ export async function getProducts(categorySlug?: string): Promise<Product[]> {
           ...p,
           images: p.images && p.images.length > 0 ? p.images.map((img: any) => ({
             ...img,
-            url: img.url.startsWith("/uploads/") ? img.url.replace("/uploads/", "/images/") : img.url
-          })) : [{ id: "def", url: "/images/serum.jpg", alt_text: p.title, is_primary: true }]
+            url: resolveProxyUrl(img.url)
+          })) : [{ id: "def", url: "/images/serum.jpg", alt_text: p.title, is_primary: true }],
+          og_image: p.og_image ? resolveProxyUrl(p.og_image) : undefined,
+          variants: p.variants?.map((v: any) => ({
+            ...v,
+            image_url: v.image_url ? resolveProxyUrl(v.image_url) : undefined
+          }))
         }));
         if (categorySlug) {
           return mapped.filter(p => p.category_slug === categorySlug || p.tags?.includes(categorySlug));
